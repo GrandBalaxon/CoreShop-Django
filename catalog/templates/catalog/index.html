@@ -29,24 +29,38 @@
                 продать</p>
         </div>
 
-        <div class="row text-center">
+        <div class="row text-center gy-4">
+
+            {% for product in products %}
+
             <div class="col-3">
-                <div class="card mb-4 box-shadow">
+                <div class="card box-shadow h-100">
                     <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">Удобный сервис рассылок</h4>
+                        <h5 class="my-0 font-weight-normal">{{ product.name }}</h5>
                     </div>
-                    <div class="card-body">
-                        <h1 class="card-title pricing-card-title">$ 140</h1>
+                    <div class="card-body d-flex flex-column">
+                        <h1 class="card-title pricing-card-title">${{ product.price }}</h1>
                         <ul class="list-unstyled mt-3 mb-4 text-start m-3">
-                            <li>- Неограниченная лицензия</li>
-                            <li>- Поддержка</li>
-                            <li>- Установка на сервер</li>
-                            <li>- Получение обновлений</li>
+                            <li><strong>Категория</strong>: {{ product.category }}</li>
                         </ul>
-                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">Купить</button>
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3 flex-grow-1">
+                            <li>{{ product.description }}</li>
+                        </ul>
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
+                            Купить
+                        </button>
                     </div>
                 </div>
             </div>
+
+            {% empty %}
+
+            <div class="col-12">
+                <p>На данный момент товаров нет.</p>
+            </div>
+
+            {% endfor %}
+
         </div>
 
     </div>
