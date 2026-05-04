@@ -16,4 +16,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(ContactInfo)
 class ContactInfoAdmin(admin.ModelAdmin):
-    list_display = ("country", "inn", "address")
+    list_display = ("country", "TIN", "address")
