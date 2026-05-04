@@ -1,9 +1,15 @@
 from django.shortcuts import render
 
-from catalog.models import ContactInfo
+from catalog.models import ContactInfo, Product
 
 
 def index(request):
+    latest_products = Product.objects.order_by('-created_at')[:5]
+
+    print("Последние 5 продуктов:")
+    for product in latest_products:
+        print(f"* {product.name} — ${product.price} - Категория: {product.category}")
+
     return render(request, 'catalog/index.html')
 
 
