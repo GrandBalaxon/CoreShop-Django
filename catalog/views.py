@@ -8,7 +8,7 @@ def index(request):
 
 
 def contacts(request):
-    contact_info = ContactInfo.objects.get(id=1)
+    contact_info = ContactInfo.objects.first()
     context = {'contact_info': contact_info}
 
     if request.method == 'POST':
