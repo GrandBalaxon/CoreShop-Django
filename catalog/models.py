@@ -34,3 +34,16 @@ class Product(models.Model):
         verbose_name = "товар"
         verbose_name_plural = "товары"
         ordering = ["price"]
+
+
+class ContactInfo(models.Model):
+    country = models.CharField(max_length=50, verbose_name="Страна", default="USA")
+    TIN =  models.CharField(max_length=12, verbose_name="ИНН", default="91-1144442")
+    address = models.CharField(max_length=300, verbose_name="Адрес", default="Redmond, WA, 98052-6399")
+
+    def __str__(self):
+        return f"{self.country} - {self.TIN} - {self.address}"
+
+    class Meta:
+        verbose_name = "контактная информация"
+        verbose_name_plural = "контактная информация"
