@@ -4,4 +4,6 @@ from .apps import CatalogConfig
 
 app_name = CatalogConfig.name
 
-urlpatterns = []
+urlpatterns = [
+    path('', views.index, name="index"),
+]
