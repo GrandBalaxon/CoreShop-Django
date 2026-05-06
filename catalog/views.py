@@ -21,3 +21,11 @@ def contacts(request):
         return render(request, "catalog/message_received.html", context)
 
     return render(request, 'catalog/contacts.html', context)
+
+
+def product_details(request, product_id):
+    data = Product.objects.get(id=product_id)
+    context = {
+        'product': data
+    }
+    return render(request, 'catalog/product_details.html', context)

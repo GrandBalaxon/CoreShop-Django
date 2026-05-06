@@ -27,15 +27,15 @@
                         <li>{{ product.description|truncatechars:100 }}</li>
                     </ul>
                     <div class="btn-group">
-                        <button type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
+                        <a href="product/{{ product.id }}/" type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
                             Подробнее
-                        </button>
-                        <button type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
+                        </a>
+                        <a type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
                             <svg class="bi" width="1em" height="1em" fill="currentColor">
                                 <use href="/static/images/cart.svg"/>
                             </svg>
                             Купить
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

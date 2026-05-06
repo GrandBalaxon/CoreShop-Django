@@ -1,0 +1,35 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container flex-grow-1">
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">{{ product.name }}</h1>
+    </div>
+
+    <div class="row text-center gy-4">
+
+        <div class="card-header">
+            <h5 class="my-0 font-weight-normal">{{ product.name }}</h5>
+        </div>
+        <div class="card-body d-flex flex-column">
+            <h1 class="card-title pricing-card-title">${{ product.price }}</h1>
+            <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                <li><strong>Категория</strong>: {{ product.category }}</li>
+            </ul>
+            <ul class="list-unstyled mt-3 mb-4 text-start m-3 flex-grow-1">
+                <li>{{ product.description|truncatechars:100 }}</li>
+            </ul>
+
+            <a href="#" type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
+                <svg class="bi" width="1em" height="1em" fill="currentColor">
+                    <use href="/static/images/cart.svg"/>
+                </svg>
+                Купить
+            </a>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}
