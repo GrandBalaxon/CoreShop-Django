@@ -13,7 +13,7 @@
 
         {% for product in products %}
 
-        <div class="col-3">
+        <div class="col-6">
             <div class="card box-shadow h-100">
                 <div class="card-header">
                     <h5 class="my-0 font-weight-normal">{{ product.name }}</h5>
@@ -24,11 +24,19 @@
                         <li><strong>Категория</strong>: {{ product.category }}</li>
                     </ul>
                     <ul class="list-unstyled mt-3 mb-4 text-start m-3 flex-grow-1">
-                        <li>{{ product.description }}</li>
+                        <li>{{ product.description|truncatechars:100 }}</li>
                     </ul>
-                    <button type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
-                        Купить
-                    </button>
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
+                            Подробнее
+                        </button>
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary mt-auto">
+                            <svg class="bi" width="1em" height="1em" fill="currentColor">
+                                <use href="/static/images/cart.svg"/>
+                            </svg>
+                            Купить
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
