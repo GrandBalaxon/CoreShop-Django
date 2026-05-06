@@ -33,6 +33,26 @@
             <div class="col-lg-9 col-md-6 col-sm-12">
                 <div class="card mb-4 box-shadow">
                     <div class="card-body">
+
+                        {% if contact_info %}
+
+                        <table class="table table-striped">
+                            <tr>
+                                <td class="w-25">Страна</td>
+                                <td>{{ contact_info.country }}</td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">ИНН</td>
+                                <td>{{ contact_info.TIN }}</td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Адрес</td>
+                                <td>{{ contact_info.address }}</td>
+                            </tr>
+                        </table>
+
+                        {% else %}
+
                         <table class="table table-striped">
                             <tr>
                                 <td class="w-25">Страна</td>
@@ -47,6 +67,9 @@
                                 <td>Redmond,WA,98052-6399</td>
                             </tr>
                         </table>
+
+                        {% endif %}
+
                     </div>
                 </div>
             </div>
@@ -87,7 +110,7 @@
             <div class="row">
               <div class="col-12 col-md">
                   SkyStore
-                  <small class="d-block mb-3 text-muted">&copy; 2023</small>
+                  <small class="d-block mb-3 text-muted">&copy; 2026</small>
               </div>
               <div class="col-6 col-md">
                   <h5>Категории</h5>

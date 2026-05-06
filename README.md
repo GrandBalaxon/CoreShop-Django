@@ -1,7 +1,7 @@
 # 🛒 CoreShop Django
 
 ![Python](https://img.shields.io/badge/python-3.14-blue.svg)
-![Django](https://img.shields.io/badge/django-4.2-green.svg)
+![Django](https://img.shields.io/badge/django-6.0-green.svg)
 ![Poetry](https://img.shields.io/badge/dependency%20manager-poetry-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 
@@ -21,6 +21,10 @@ CoreShop Django — учебный проект в рамках курса «Pyt
 - обработка POST-запроса от формы
 - страница подтверждения после отправки сообщения
 - стилизация Bootstrap
+- управление товарами и категориями через встроенную админ-панель
+- динамический каталог товаров на главной странице
+- отображение контактной информации компании, редактируемой через админку
+- кастомная команда для загрузки тестовых данных из фикстур
 
 Используемые технологии:
 
@@ -28,6 +32,10 @@ CoreShop Django — учебный проект в рамках курса «Pyt
 - Python 3.14
 - Poetry
 - Bootstrap 5
+- PostgreSQL
+- psycopg2-binary
+- python-dotenv
+- Pillow
 
 ---
 
@@ -38,6 +46,7 @@ CoreShop Django — учебный проект в рамках курса «Pyt
 - Python 3.14 (или совместимая версия)
 - Poetry
 - Git
+- PostgreSQL
 
 ### Установка
 
@@ -61,16 +70,23 @@ https://git-scm.com/downloads
     ```bash
     poetry install
     ```
----
+   
+5. В корне проекта находится файл `.env.sample` — пример конфигурации. Скопируйте его и переименуйте в `.env`:
 
-## ⚙️ Настройка
+   ```bash
+   cp .env.sample .env
+   ````
 
-Проект уже настроен для локальной разработки.
-Дополнительных файлов конфигурации (например, `.env`) на данном этапе не требуется.
+   Внутри `.env` пропишите свои реальные значения:
 
 ---
 
 ## 🛠 Использование
+
+Загрузите категории, продукты и контактные данные из фикстуры `catalog_fixture.json` в корне проекта:
+```bash
+python manage.py load_test_data
+````
 
 Запуск сервера разработки
 ```bash
@@ -80,6 +96,14 @@ python manage.py runserver
 Откройте в браузере:
 
 * Главная страница: http://127.0.0.1:8000/
+
+* Админ-панель: http://127.0.0.1:8000/admin/
+   
+   Для использования админки вам необходимо создать суперпользователя для управления товарами, категориями и 
+   контактной информацией.
+   ```bash
+   python manage.py createsuperuser
+   ````
 
 * Контакты: http://127.0.0.1:8000/contacts/
 
@@ -100,7 +124,10 @@ coreshop-django/
 │   └── wsgi.py
 │
 ├── catalog/                # Приложение «Каталог»
-│   ├── migrations/         # (пока пусто)
+│   ├── management/
+│   │   └── commands/
+│   │       └── load_test_data.py
+│   ├── migrations/
 │   ├── templates/
 │   │   └── catalog/
 │   │       ├── index.html
@@ -109,18 +136,22 @@ coreshop-django/
 │   ├── __init__.py
 │   ├── admin.py
 │   ├── apps.py
-│   ├── models.py
+│   ├── models.py           # модели Category, Product, ContactInfo
 │   ├── tests.py
 │   ├── urls.py
 │   └── views.py
 │
+├── media/
+│ 
 ├── static/                 # Статические файлы (CSS, JS)
 │   ├── css/
 │   │   └── bootstrap.min.css
 │   └── js/
 │       └── bootstrap.bundle.min.js
 │
+├── .env.sample
 ├── .gitignore
+├── catalog_fixture.json 
 ├── manage.py
 ├── pyproject.toml
 ├── poetry.lock

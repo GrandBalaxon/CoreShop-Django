@@ -1,0 +1,142 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Рассылки",
+        "description": "Готовые решения для email и мессенджер-рассылок."
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Телеграм боты",
+        "description": "Автоматизация, приём платежей, боты для бизнеса."
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 3,
+    "fields": {
+        "name": "Веб-приложения",
+        "description": "Готовые Django / Flask приложения и модули."
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 4,
+    "fields": {
+        "name": "Утилиты",
+        "description": "Скрипты, парсеры, вспомогательные библиотеки."
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 5,
+    "fields": {
+        "name": "Микросервисы",
+        "description": "Docker-образы, API-сервисы на Python."
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Email-рассылка «Бизнес-лайт»",
+        "description": "Простой сервис для создания email-рассылок с готовыми шаблонами. Подходит для малого бизнеса.",
+        "image": "",
+        "category": 1,
+        "price": 49,
+        "created_at": "2026-05-04T20:34:22.878Z",
+        "updated_at": "2026-05-04T20:34:22.878Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 3,
+    "fields": {
+        "name": "Удобный сервис рассылок",
+        "description": "Расширенная версия с неограниченной лицензией, поддержкой и установкой на ваш сервер.",
+        "image": "",
+        "category": 1,
+        "price": 149,
+        "created_at": "2026-05-04T20:36:58.906Z",
+        "updated_at": "2026-05-04T20:36:58.906Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 4,
+    "fields": {
+        "name": "Телеграм-бот «Онлайн-запись»",
+        "description": "Бот для бронирования времени в салоне или клинике. Подключается к Google Calendar.",
+        "image": "",
+        "category": 2,
+        "price": 99,
+        "created_at": "2026-05-04T20:39:04.750Z",
+        "updated_at": "2026-05-04T20:39:04.750Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 5,
+    "fields": {
+        "name": "PaymentBot — приём платежей в Telegram",
+        "description": "Готовый бот с интеграцией Stripe и ЮKassa для продажи цифровых товаров.",
+        "image": "",
+        "category": 2,
+        "price": 129,
+        "created_at": "2026-05-04T20:40:38.374Z",
+        "updated_at": "2026-05-04T20:40:38.374Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 6,
+    "fields": {
+        "name": "Django-админка \"Enhanced Admin\"",
+        "description": "Кастомизированная админ-панель с доп. виджетами, экспортом и фильтрами.",
+        "image": "",
+        "category": 3,
+        "price": 69,
+        "created_at": "2026-05-04T20:42:29.527Z",
+        "updated_at": "2026-05-04T20:42:29.527Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 7,
+    "fields": {
+        "name": "Микросервис нотификаций",
+        "description": "Готовый API для отправки SMS и Telegram уведомлений в Docker-контейнере.",
+        "image": "",
+        "category": 5,
+        "price": 119,
+        "created_at": "2026-05-04T20:43:56.450Z",
+        "updated_at": "2026-05-04T20:43:56.450Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 8,
+    "fields": {
+        "name": "HH Vacancy Analyzer Pro",
+        "description": "Инструмент для HR и рекрутеров: собирает вакансии с hh.ru, сохраняет в PostgreSQL и предоставляет веб-интерфейс на Django с отчётами.",
+        "image": "",
+        "category": 4,
+        "price": 199,
+        "created_at": "2026-05-04T20:45:59.925Z",
+        "updated_at": "2026-05-04T20:45:59.925Z"
+    }
+},
+{
+    "model": "catalog.contactinfo",
+    "pk": 1,
+    "fields": {
+        "country": "Россия",
+        "TIN": "7810123456",
+        "address": "191036, г. Санкт-Петербург, Невский пр-кт, д. 100, офис 404"
+    }
+}
+]
