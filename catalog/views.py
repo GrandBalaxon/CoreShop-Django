@@ -29,3 +29,7 @@ def product_details(request, product_id):
         'product': data
     }
     return render(request, 'catalog/product_details.html', context)
+
+
+def add_product(request):
+    return render(request, 'catalog/add_product.html')
