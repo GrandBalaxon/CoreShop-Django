@@ -22,12 +22,10 @@
         </div>
 
         <label for="categorySelect" class="form-label">Категория</label>
-        <select class="form-select mb-3" aria-label="Default select example" id="categorySelect">
-            <option selected value="1">Рассылки</option>
-            <option value="2">Телеграм боты</option>
-            <option value="3">Полезные утилиты</option>
-            <option value="4">Веб-приложения</option>
-            <option value="5">Микросервисы</option>
+        <select class="form-select mb-3" name="category" id="categorySelect">
+            {% for category in categories %}
+            <option value="{{ category.id }}">{{ category.name }}</option>
+            {% endfor %}
         </select>
 
         <div class="mb-3">
