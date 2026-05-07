@@ -6,6 +6,7 @@
             <a class="p-2 btn btn-outline-primary" href="/contacts/">Контакты</a>
         </nav>
     </div>
+    {% if request.path == '/' %}
     <div class="d-flex align-items-center">
         <a class="p-2 btn btn-primary d-inline-flex align-items-center" href="/add-product/">
             <svg class="bi" width="1em" height="1em" fill="currentColor">
@@ -15,4 +16,5 @@
             Добавить товар
         </a>
     </div>
+    {% endif %}
 </div>
