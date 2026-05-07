@@ -8,21 +8,22 @@
         <p class="lead">Заполните все данные по вашему товару, нажмите кнопку 'Добавить'</p>
     </div>
 
-    <form method="post" action="/contacts">
+    <form method="post" action="">
+        {% csrf_token %}
 
         <div class="mb-3">
             <label for="nameInput" class="form-label">Название</label>
-            <input type="text" class="form-control" id="nameInput" name="name">
+            <input type="text" class="form-control" id="nameInput" name="name" required>
         </div>
 
         <label for="priceInput" class="form-label">Цена</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">$</span>
-            <input type="number" class="form-control" id="priceInput" name="price">
+            <input type="number" class="form-control" id="priceInput" name="price" required>
         </div>
 
         <label for="categorySelect" class="form-label">Категория</label>
-        <select class="form-select mb-3" name="category" id="categorySelect">
+        <select class="form-select mb-3" name="category" id="categorySelect" required>
             {% for category in categories %}
             <option value="{{ category.id }}">{{ category.name }}</option>
             {% endfor %}
@@ -35,7 +36,9 @@
                     id="exampleFormControlTextarea1"
                     style="field-sizing: content; min-height: 10em;"
                     rows="3"
-                    name="description">
+                    name="description"
+                    required
+            >
             </textarea>
         </div>
 
