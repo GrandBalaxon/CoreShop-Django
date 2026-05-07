@@ -23,11 +23,22 @@
         </div>
 
         <label for="categorySelect" class="form-label">Категория</label>
-        <select class="form-select mb-3" name="category" id="categorySelect" required>
-            {% for category in categories %}
-            <option value="{{ category.id }}">{{ category.name }}</option>
-            {% endfor %}
-        </select>
+        <div class="row">
+            <div class="col-3">
+                <select class="form-select" name="category" id="categorySelect" onchange="updateDescription()" required>
+                    <option value="" disabled selected>...</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}" data-description="{{ category.description }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-9 d-flex align-items-center">
+                <span id="categoryDescription" class="text-muted">
+                    Выберите категорию из списка слева.
+                </span>
+            </div>
+        </div>
+        <div class="mb-3"></div>
 
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Описание</label>
@@ -42,9 +53,25 @@
             </textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Добавить</button>
+        <button type="submit" class="btn btn-lg btn-primary">Добавить</button>
 
     </form>
 
 </div>
+
+<script>
+function updateDescription() {
+    const select = document.getElementById('categorySelect');
+    const descriptionDiv = document.getElementById('categoryDescription');
+
+    // Получаем выбранный option
+    const selectedOption = select.options[select.selectedIndex];
+
+    // Берем описание из нашего data-атрибута
+    const description = selectedOption.getAttribute('data-description');
+
+    // Обновляем текст
+    descriptionDiv.textContent = description || "";
+}
+</script>
 {% endblock %}
