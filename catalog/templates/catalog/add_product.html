@@ -8,7 +8,7 @@
         <p class="lead">Заполните все данные по вашему товару, нажмите кнопку 'Добавить'</p>
     </div>
 
-    <form method="post" action="">
+    <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
 
         <div class="mb-3">
@@ -39,6 +39,11 @@
             </div>
         </div>
         <div class="mb-3"></div>
+
+        <label for="inputFile" class="form-label">Изображение</label>
+        <div class="input-group mb-3">
+          <input type="file" class="form-control" id="inputFile" name="image">
+        </div>
 
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Описание</label>

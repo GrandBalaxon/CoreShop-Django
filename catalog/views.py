@@ -40,12 +40,14 @@ def add_product(request):
         price = request.POST.get('price')
         category_id = request.POST.get('category')
         description = request.POST.get('description')
+        image = request.FILES.get('image')
 
         new_product = Product.objects.create(
             name=name,
             price=price,
             category_id=category_id,
-            description=description
+            description=description,
+            image=image,
         )
 
         return render(request, "catalog/product_added.html")
