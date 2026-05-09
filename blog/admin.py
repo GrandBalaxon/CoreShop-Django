@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from blog.models import BlogPost
+from blog.models import BlogPost, Category
 
 
 @admin.register(BlogPost)
@@ -15,3 +15,9 @@ class BlogPostAdmin(admin.ModelAdmin):
 
     link.short_description = "Ссылка на статью"
     link.allow_tags = True
+
+
+@admin.register(Category)
+class BlogCategoryAdmin(admin.ModelAdmin):
+    list_display = ("name", "description")
+    search_fields = ("name",)
