@@ -1,5 +1,4 @@
 from django.shortcuts import render
-from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView
 
