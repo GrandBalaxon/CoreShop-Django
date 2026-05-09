@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 
@@ -25,6 +25,15 @@ class BlogPostDetailView(DetailView):
             return blogpost
         else:
             return blogpost
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+
+        if not self.object.is_published:
+            self.object.is_published = True
+            self.object.save(update_fields=['is_published'])
+
+        return redirect(self.object.get_absolute_url())
 
 
 class BlogPostCreateView(CreateView):
