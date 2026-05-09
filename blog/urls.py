@@ -4,4 +4,6 @@ from .apps import BlogConfig
 
 app_name = BlogConfig.name
 
-urlpatterns = []
+urlpatterns = [
+    path("", views.BlogPostsView.as_view(), name="blog"),
+]

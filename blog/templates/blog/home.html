@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container flex-grow-1">
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Мы пишем</h1>
+        <p class="lead">Статьи, руководства и новости о плагинах, ботах и веб-разработке. Делимся опытом, чтобы ваш
+            код работал лучше.</p>
+    </div>
+
+    <div class="row text-center gy-4">
+
+        {% for blogpost in blogposts %}
+
+
+
+        {% empty %}
+
+        <div class="col-12">
+            <p>На данный момент публикаций нет.</p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
