@@ -1,10 +1,29 @@
 from django.db import models
 from django.urls import reverse
 
+class Category(models.Model):
+    name = models.CharField(unique=True, max_length=150, verbose_name="Наименование")
+    description = models.TextField(verbose_name="Описание")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = "категория"
+        verbose_name_plural = "категории"
+
 
 class BlogPost(models.Model):
     title = models.CharField(max_length=200, verbose_name="Заголовок")
     content = models.TextField(verbose_name="Содержимое")
+    category = models.ForeignKey(
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="posts",
+        verbose_name="Категория"
+    )
     preview = models.ImageField(upload_to='images/blog/', null=True, blank=True, verbose_name="Превью")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
