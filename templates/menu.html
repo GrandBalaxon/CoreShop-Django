@@ -18,6 +18,14 @@
             <span class="border-start border-white opacity-50 mx-2" style="height: 1.2em;"></span>
             Добавить товар
         </a>
+        {% elif request.path == '/blog/' %}
+        <a class="p-2 mr-4 btn btn-primary d-inline-flex align-items-center" href="/blog/post/new//">
+            <svg class="bi" width="1em" height="1em" fill="currentColor">
+                <use href="/static/images/plus-circle-fill.svg"/>
+            </svg>
+            <span class="border-start border-white opacity-50 mx-2" style="height: 1.2em;"></span>
+            Написать статью
+        </a>
         {% endif %}
         <a class="p-2 btn btn-outline-secondary" href="/admin/">
             Admin
