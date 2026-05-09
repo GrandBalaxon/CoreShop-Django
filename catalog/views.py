@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView, TemplateView
+from django.views.generic import ListView, TemplateView, DetailView
 
 from catalog.models import ContactInfo, Product, Category
 
@@ -26,12 +26,10 @@ class ContactsView(TemplateView):
         return render(request, 'catalog/message_received.html', context)
 
 
-def product_details(request, product_id):
-    data = Product.objects.get(id=product_id)
-    context = {
-        'product': data
-    }
-    return render(request, 'catalog/product_details.html', context)
+class ProductDetailsView(DetailView):
+    model = Product
+    template_name = 'catalog/product_details.html'
+    context_object_name = 'product'
 
 
 def add_product(request):
