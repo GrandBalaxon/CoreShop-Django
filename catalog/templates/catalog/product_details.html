@@ -11,6 +11,24 @@
 
         <div class="col-4 text-start">
 
+            <div class="mb-3 mt-4 text-center">
+                {% if product.image %}
+
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}"
+                     class="img-fluid"
+                     style="max-height: 250px; width: auto; object-fit: contain;">
+
+                {% else %}
+
+                <div class="bg-light d-flex align-items-center justify-content-center"
+                     style="height: 250px; border: 1px solid #dee2e6;">
+                    <span class="text-muted">Нет изображения</span>
+                </div>
+
+                {% endif %}
+            </div>
+
             <h1 class="card-title pricing-card-title mt-3">${{ product.price }}</h1>
 
             <ul class="list-unstyled text-start fs-5 mt-3">
