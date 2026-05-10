@@ -1,0 +1,62 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container flex-grow-1">
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">{{ product.name }}</h1>
+    </div>
+
+    <div class="row mt-3">
+
+        <div class="col-4 text-start">
+
+            <div class="mb-3 mt-4 text-center">
+                {% if product.image %}
+
+                <img src="{{ product.image.url }}"
+                     alt="{{ product.name }}"
+                     class="img-fluid"
+                     style="max-height: 250px; width: auto; object-fit: contain;">
+
+                {% else %}
+
+                <div class="bg-light d-flex align-items-center justify-content-center"
+                     style="height: 250px; border: 1px solid #dee2e6;">
+                    <span class="text-muted">Нет изображения</span>
+                </div>
+
+                {% endif %}
+            </div>
+
+            <h1 class="card-title pricing-card-title mt-3">${{ product.price }}</h1>
+
+            <ul class="list-unstyled text-start fs-5 mt-3">
+                <li><strong>Категория</strong>: {{ product.category }}</li>
+            </ul>
+
+            <div class="mt-5">
+                <a href="#" type="button" class="btn btn-lg btn-block btn-primary">
+                    <svg class="bi" width="1em" height="1em" fill="currentColor">
+                        <use href="/static/images/cart.svg"/>
+                    </svg>
+                    Купить
+                </a>
+                <a href="/" type="button" class="btn btn-lg btn-block btn-outline-primary">
+                Назад
+                </a>
+            </div>
+
+        </div>
+
+        <div class="col-8">
+
+            <div class="mb-4 fs-5 text-start m-3 flex-grow-1">
+                {{ product.description|linebreaks }}
+            </div>
+
+        </div>
+
+    </div>
+</div>
+{% endblock %}

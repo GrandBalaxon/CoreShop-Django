@@ -1,0 +1,82 @@
+{% extends 'catalog/base.html' %}
+
+{% block content %}
+<div class="container flex-grow-1">
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Новый товар</h1>
+        <p class="lead">Заполните все данные по вашему товару, нажмите кнопку 'Добавить'</p>
+    </div>
+
+    <form method="post" action="" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label for="nameInput" class="form-label">Название</label>
+            <input type="text" class="form-control" id="nameInput" name="name" required>
+        </div>
+
+        <label for="priceInput" class="form-label">Цена</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">$</span>
+            <input type="number" class="form-control" id="priceInput" name="price" required>
+        </div>
+
+        <label for="categorySelect" class="form-label">Категория</label>
+        <div class="row">
+            <div class="col-3">
+                <select class="form-select" name="category" id="categorySelect" onchange="updateDescription()" required>
+                    <option value="" disabled selected>...</option>
+                    {% for category in categories %}
+                    <option value="{{ category.id }}" data-description="{{ category.description }}">{{ category.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-9 d-flex align-items-center">
+                <span id="categoryDescription" class="text-muted">
+                    Выберите категорию из списка слева.
+                </span>
+            </div>
+        </div>
+        <div class="mb-3"></div>
+
+        <label for="inputFile" class="form-label">Изображение</label>
+        <div class="input-group mb-3">
+          <input type="file" class="form-control" id="inputFile" name="image">
+        </div>
+
+        <div class="mb-3">
+            <label for="exampleFormControlTextarea1" class="form-label">Описание</label>
+            <textarea
+                    class="form-control"
+                    id="exampleFormControlTextarea1"
+                    style="field-sizing: content; min-height: 10em;"
+                    rows="3"
+                    name="description"
+                    required
+            >
+            </textarea>
+        </div>
+
+        <button type="submit" class="btn btn-lg btn-primary">Добавить</button>
+
+    </form>
+
+</div>
+
+<script>
+function updateDescription() {
+    const select = document.getElementById('categorySelect');
+    const descriptionDiv = document.getElementById('categoryDescription');
+
+    // Получаем выбранный option
+    const selectedOption = select.options[select.selectedIndex];
+
+    // Берем описание из нашего data-атрибута
+    const description = selectedOption.getAttribute('data-description');
+
+    // Обновляем текст
+    descriptionDiv.textContent = description || "";
+}
+</script>
+{% endblock %}
