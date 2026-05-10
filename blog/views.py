@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 
@@ -49,19 +50,18 @@ class BlogPostCreateView(CreateView):
 
     def form_valid(self, form):
         self.object = form.save()
-        return render(self.request, "blog/blog_detail.html")
+        return redirect(self.object.get_absolute_url())
 
 
 class BlogPostUpdateView(UpdateView):
     model = BlogPost
-    template_name = 'blog/write_blog.html'
+    template_name = 'blog/update_blog.html'
     fields = ['title', 'category', 'content', 'preview']
     context_object_name = 'blogpost'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
-        print(context)
         return context
 
     def form_valid(self, form):
