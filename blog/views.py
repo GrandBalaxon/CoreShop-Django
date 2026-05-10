@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 
@@ -67,3 +67,10 @@ class BlogPostUpdateView(UpdateView):
     def form_valid(self, form):
         self.object = form.save()
         return redirect(self.object.get_absolute_url())
+
+
+class BlogPostDeleteView(DeleteView):
+    model = BlogPost
+    template_name = "blog/blog_confirm_delete.html"
+    success_url = reverse_lazy("blog:blog")
+    context_object_name = "blogpost"
