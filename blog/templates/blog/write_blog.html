@@ -4,7 +4,13 @@
 <div class="container flex-grow-1">
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Новая статья</h1>
+        <h1 class="display-4">
+            {% if form.instance.pk %}
+            Редактировать статью
+            {% else %}
+            Новая статья
+            {% endif %}
+        </h1>
         <p class="lead">Поделитесь опытом, руководством или новостью. Всё, что поможет разработчикам.</p>
     </div>
 
@@ -13,16 +19,20 @@
 
         <div class="mb-3">
             <label for="titleInput" class="form-label">Заголовок</label>
-            <input type="text" class="form-control" id="titleInput" name="title" required>
+            <input type="text" class="form-control" id="titleInput" name="title" value="{{ form.title.value | default:'' }}" required>
         </div>
 
         <label for="categorySelect" class="form-label">Категория</label>
         <div class="row">
             <div class="col-3">
                 <select class="form-select" name="category" id="categorySelect" onchange="updateDescription()" required>
-                    <option value="" disabled selected>...</option>
+                    <option value="" disabled {% if not form.category.value %}selected{% endif %}>...</option>
                     {% for category in categories %}
-                    <option value="{{ category.id }}" data-description="{{ category.description }}">{{ category.name }}</option>
+                    <option value="{{ category.id }}"
+                            data-description="{{ category.description }}"
+                            {% if form.category.value|stringformat:"s" == category.id|stringformat:"s" %}selected{% endif %}>
+                        {{ category.name }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
@@ -32,11 +42,21 @@
                 </span>
             </div>
         </div>
+
         <div class="mb-3"></div>
 
         <label for="inputFile" class="form-label">Изображение (Превью)</label>
+
+        {% if form.instance.preview %}
+        <div class="mb-2">
+            <img src="{{ form.instance.preview.url }}" alt="Текущее превью"
+                 style="max-height: 80px;" class="img-thumbnail">
+            <p class="form-text mb-0">Выберите новый файл, чтобы заменить текущее изображение.</p>
+        </div>
+        {% endif %}
+
         <div class="input-group mb-3">
-          <input type="file" class="form-control" id="inputFile" name="preview">
+            <input type="file" class="form-control" id="inputFile" name="preview" {% if not form.instance.preview %}required{% endif %}>
         </div>
 
         <div class="mb-3">
@@ -48,8 +68,7 @@
                     rows="3"
                     name="content"
                     required
-            >
-            </textarea>
+            >{{ form.content.value | default:'' }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-lg btn-primary">Сохранить</button>

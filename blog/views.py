@@ -50,3 +50,20 @@ class BlogPostCreateView(CreateView):
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, "blog/blog_detail.html")
+
+
+class BlogPostUpdateView(UpdateView):
+    model = BlogPost
+    template_name = 'blog/write_blog.html'
+    fields = ['title', 'category', 'content', 'preview']
+    context_object_name = 'blogpost'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        print(context)
+        return context
+
+    def form_valid(self, form):
+        self.object = form.save()
+        return redirect(self.object.get_absolute_url())
