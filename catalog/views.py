@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, DetailView
-from django.views.generic.edit import CreateView, UpdateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm
 from catalog.models import ContactInfo, Product, Category
@@ -60,3 +60,10 @@ class ProductUpdateView(UpdateView):
         context = super().get_context_data(**kwargs)
         context['categories'] = Category.objects.all()
         return context
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/delete_confirm.html'
+    success_url = reverse_lazy('catalog:delete_product')
+    context_object_name = "product"
