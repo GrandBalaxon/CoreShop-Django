@@ -4,47 +4,86 @@
 <div class="container flex-grow-1">
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Новый товар</h1>
-        <p class="lead">Заполните все данные по вашему товару, нажмите кнопку 'Добавить'</p>
+        <h1 class="display-4">
+            {% if form.instance.pk %}
+            Редактирование товара
+            {% else %}
+            Новый товар
+            {% endif %}
+        </h1>
+        <p class="lead">
+            {% if form.instance.pk %}
+            Измените данные товара, нажмите «Сохранить».
+            {% else %}
+            Заполните все данные по вашему товару, нажмите кнопку «Добавить».
+            {% endif %}
+        </p>
     </div>
 
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
-<!--        {{ form.as_p }}-->
+
+        <!-- Название товара -->
         <div class="mb-3">
             <label for="nameInput" class="form-label">Название</label>
-            <input type="text" class="form-control" id="nameInput" name="name" required>
+            <input type="text" class="form-control" id="nameInput" name="name" value="{{ product.name|default:'' }}" required>
         </div>
+        {% if form.name.errors %}
+            <div class="text-danger">{{ form.name.errors }}</div>
+        {% endif %}
 
+        <!-- Цена -->
         <label for="priceInput" class="form-label">Цена</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="basic-addon1">$</span>
-            <input type="number" class="form-control" id="priceInput" name="price" required>
+            <input type="number" class="form-control" id="priceInput" name="price" value="{{ product.price|default:'' }}" required>
         </div>
+        {% if form.price.errors %}
+            <div class="text-danger">{{ form.price.errors }}</div>
+        {% endif %}
 
+        <!-- Категория -->
         <label for="categorySelect" class="form-label">Категория</label>
         <div class="row">
             <div class="col-3">
                 <select class="form-select" name="category" id="categorySelect" onchange="updateDescription()" required>
-                    <option value="" disabled selected>...</option>
+                    <option value="" disabled {% if not product.category %}selected{% endif %}>...</option>
                     {% for category in categories %}
-                    <option value="{{ category.id }}" data-description="{{ category.description }}">{{ category.name }}</option>
+                    <option value="{{ category.id }}"
+                            data-description="{{ category.description }}"
+                            {% if product.category|stringformat:"s" == category.id|stringformat:"s" %}selected{% endif %}>
+                    {{ category.name }}
+                    </option>
                     {% endfor %}
                 </select>
             </div>
             <div class="col-9 d-flex align-items-center">
                 <span id="categoryDescription" class="text-muted">
+                    {% if product.category %}
+                    Выбранная категория.
+                    {% else %}
                     Выберите категорию из списка слева.
+                    {% endif %}
                 </span>
             </div>
         </div>
         <div class="mb-3"></div>
 
+        <!-- Изображение -->
         <label for="inputFile" class="form-label">Изображение</label>
+        {% if product.image %}
+        <div class="mb-2">
+            <img src="{{ product.image.url }}" alt="Текущее превью"
+                 style="max-height: 80px;" class="img-thumbnail">
+            <p class="form-text mb-0">Выберите новый файл, чтобы заменить текущее изображение.</p>
+        </div>
+        {% endif %}
+
         <div class="input-group mb-3">
-          <input type="file" class="form-control" id="inputFile" name="image">
+            <input type="file" class="form-control" id="inputFile" name="image">
         </div>
 
+        <!-- Описание -->
         <div class="mb-3">
             <label for="exampleFormControlTextarea1" class="form-label">Описание</label>
             <textarea
@@ -54,10 +93,19 @@
                     rows="3"
                     name="description"
                     required
-            ></textarea>
+            >{{ product.description|default:'' }}</textarea>
         </div>
+        {% if form.description.errors %}
+            <div class="text-danger">{{ form.description.errors }}</div>
+        {% endif %}
 
-        <button type="submit" class="btn btn-lg btn-primary">Добавить</button>
+        <button type="submit" class="btn btn-lg btn-primary">
+            {% if form.instance.pk %}
+            Сохранить
+            {% else %}
+            Добавить
+            {% endif %}
+        </button>
 
     </form>
 
