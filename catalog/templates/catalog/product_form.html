@@ -82,6 +82,9 @@
         <div class="input-group mb-3">
             <input type="file" class="form-control" id="inputFile" name="image">
         </div>
+        {% if form.image.errors %}
+            <div class="text-danger">{{ form.image.errors }}</div>
+        {% endif %}
 
         <!-- Описание -->
         <div class="mb-3">

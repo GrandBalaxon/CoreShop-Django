@@ -1,4 +1,6 @@
 import re
+from pathlib import Path
+
 from django import forms
 from django.core.exceptions import ValidationError
 
@@ -18,6 +20,10 @@ FORBIDDEN_WORDS = [
 ]
 
 pattern = r'\b(?:' + '|'.join(FORBIDDEN_WORDS) + r')\b'
+
+MAX_IMAGE_SIZE = 5 * 1024 * 1024
+
+ALLOWED_EXTENSIONS = ('.jpg', '.jpeg', '.png')
 
 
 class ProductForm(forms.ModelForm):
@@ -53,3 +59,13 @@ class ProductForm(forms.ModelForm):
             raise ValidationError("Цена не может быть равной нулю.")
         return price
 
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+        extension = Path(image.name).suffix.lower()
+
+        if extension not in ALLOWED_EXTENSIONS:
+            raise ValidationError(f"Недопустимый формат файла. Разрешенные форматы: {", ".join(ALLOWED_EXTENSIONS)}.")
+        elif image.size > MAX_IMAGE_SIZE:
+            raise ValidationError("Размер файла не должен превышать 5 МБ.")
+
+        return image
