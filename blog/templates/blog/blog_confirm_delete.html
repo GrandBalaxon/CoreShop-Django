@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <div class="card">
+
+                <div class="card-header bg-danger text-white">
+                    <h4 class="my-0">Удаление статьи</h4>
+                </div>
+
+                <div class="card-body">
+                    <p class="fs-5">Вы действительно хотите удалить статью <strong>"{{ blogpost.title }}"</strong>?</p>
+                    <p class="text-muted">Это действие нельзя будет отменить.</p>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex justify-content-between">
+                            <a href="{{ blogpost.get_absolute_url }}" class="btn btn-outline-secondary">Отмена</a>
+                            <button type="submit" class="btn btn-danger">Удалить</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

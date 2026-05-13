@@ -1,55 +1,49 @@
 from django.shortcuts import render
+from django.views.generic import ListView, TemplateView, DetailView
+from django.views.generic.edit import CreateView
 
 from catalog.models import ContactInfo, Product, Category
 
 
-def index(request):
-    products = Product.objects.all()
-    context = {'products': products}
+class ProductsListView(ListView):
+    model = Product
+    template_name = 'catalog/home.html'
+    context_object_name = 'products'
 
-    return render(request, 'catalog/index.html', context)
 
+class ContactsView(TemplateView):
+    template_name = 'catalog/contacts.html'
 
-def contacts(request):
-    contact_info = ContactInfo.objects.first()
-    context = {'contact_info': contact_info}
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['contact_info'] = ContactInfo.objects.first()
+        return context
 
-    if request.method == 'POST':
+    @staticmethod
+    def post(request):
         name = request.POST.get('name')
-        context['name'] = name
+        context = {'name': name}
 
-        return render(request, "catalog/message_received.html", context)
-
-    return render(request, 'catalog/contacts.html', context)
+        return render(request, 'catalog/message_received.html', context)
 
 
-def product_details(request, product_id):
-    data = Product.objects.get(id=product_id)
-    context = {
-        'product': data
-    }
-    return render(request, 'catalog/product_details.html', context)
+class ProductDetailsView(DetailView):
+    model = Product
+    template_name = 'catalog/product_details.html'
+    context_object_name = 'product'
 
 
-def add_product(request):
-    categories = Category.objects.all()
-    context = {'categories': categories}
+class AddProductView(CreateView):
+    model = Product
+    fields = ['name', 'price', 'category', 'description', 'image']
+    template_name = 'catalog/add_product.html'
 
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        price = request.POST.get('price')
-        category_id = request.POST.get('category')
-        description = request.POST.get('description')
-        image = request.FILES.get('image')
+    def get_context_data(self, **kwargs):
+        context = {
+            'categories': Category.objects.all(),
+        }
+        return context
 
-        new_product = Product.objects.create(
-            name=name,
-            price=price,
-            category_id=category_id,
-            description=description,
-            image=image,
-        )
-
-        return render(request, "catalog/product_added.html")
-
-    return render(request, 'catalog/add_product.html', context)
+    def form_valid(self, form):
+        self.object = form.save()
+        return render(self.request, "catalog/product_added.html")

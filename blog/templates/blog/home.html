@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container flex-grow-1">
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Мы пишем</h1>
+        <p class="lead">Статьи, руководства и новости о плагинах, ботах и веб-разработке. Делимся опытом, чтобы ваш
+            код работал лучше.</p>
+    </div>
+
+    <div class="row text-center gy-4">
+
+        {% for blogpost in blogposts %}
+
+        <div class="col-12 col-md-6 col-lg-4 mb-4">
+
+            <div class="card border-0 shadow-sm h-100 position-relative text-white overflow-hidden"
+                 style="min-height: 400px; border-radius: 15px;">
+
+                <div class="position-absolute grow-hover w-100 h-100"
+                     style="background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.9)), url('{{ blogpost.preview.url }}') no-repeat center center;
+                            background-size: cover; z-index: 0;">
+                </div>
+
+                <div class="card-body d-flex flex-column p-4 position-relative" style="z-index: 1;">
+
+                    <div class="mb-auto">
+                        <span class="badge rounded-pill px-3 py-2" style="background-color: rgba(13, 110, 253, 0.8);">
+                            {{ blogpost.category }}
+                        </span>
+                    </div>
+
+                    <div class="mt-auto">
+
+                        <h5 class="card-title fw-bold mb-3 lh-sm" style="font-size: 1.25rem;">
+                            {{ blogpost.title }}
+                        </h5>
+
+                        <div class="d-flex align-items-center gap-3 opacity-75 small fw-bold">
+                            <span class="d-flex align-items-center gap-1">
+                                <img src="/static/images/eye.svg/" alt="" width="16" height="16" style="filter: invert(1);">
+                                {{ blogpost.views_count }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <a href="post/{{ blogpost.id }}/" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+            <p>На данный момент публикаций нет.</p>
+        </div>
+
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
