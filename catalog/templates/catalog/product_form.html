@@ -10,7 +10,7 @@
 
     <form method="post" action="" enctype="multipart/form-data">
         {% csrf_token %}
-
+<!--        {{ form.as_p }}-->
         <div class="mb-3">
             <label for="nameInput" class="form-label">Название</label>
             <input type="text" class="form-control" id="nameInput" name="name" required>
@@ -54,8 +54,7 @@
                     rows="3"
                     name="description"
                     required
-            >
-            </textarea>
+            ></textarea>
         </div>
 
         <button type="submit" class="btn btn-lg btn-primary">Добавить</button>
