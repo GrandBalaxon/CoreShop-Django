@@ -1,7 +1,9 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import ListView, TemplateView, DetailView
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+from catalog.forms import ProductForm
 from catalog.models import ContactInfo, Product, Category
 
 
@@ -33,17 +35,35 @@ class ProductDetailsView(DetailView):
     context_object_name = 'product'
 
 
-class AddProductView(CreateView):
+class ProductCreateView(CreateView):
     model = Product
-    fields = ['name', 'price', 'category', 'description', 'image']
-    template_name = 'catalog/add_product.html'
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
 
     def get_context_data(self, **kwargs):
-        context = {
-            'categories': Category.objects.all(),
-        }
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
         return context
 
     def form_valid(self, form):
         self.object = form.save()
         return render(self.request, "catalog/product_added.html")
+
+
+class ProductUpdateView(UpdateView):
+    model = Product
+    form_class = ProductForm
+    template_name = 'catalog/product_form.html'
+    success_url = reverse_lazy('catalog:products_list')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all()
+        return context
+
+
+class ProductDeleteView(DeleteView):
+    model = Product
+    template_name = 'catalog/delete_confirm.html'
+    success_url = reverse_lazy('catalog:products_list')
+    context_object_name = "product"

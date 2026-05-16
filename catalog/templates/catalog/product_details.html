@@ -31,19 +31,31 @@
 
             <h1 class="card-title pricing-card-title mt-3">${{ product.price }}</h1>
 
-            <ul class="list-unstyled text-start fs-5 mt-3">
+            <ul class="list-unstyled text-start fs-5 mt-3 mb-3">
                 <li><strong>Категория</strong>: {{ product.category }}</li>
             </ul>
 
-            <div class="mt-5">
-                <a href="#" type="button" class="btn btn-lg btn-block btn-primary">
-                    <svg class="bi" width="1em" height="1em" fill="currentColor">
-                        <use href="/static/images/cart.svg"/>
-                    </svg>
-                    Купить
+            <a href="#" class="btn btn-primary w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 rounded-3" style="background-color: #0066ff; border: none; font-size: 1.1rem;">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+                    <use href="/static/images/cart.svg"/>
+                </svg>
+                Купить продукт
+            </a>
+
+            <div class="d-flex gap-2 mt-3 justify-content-center">
+                <a href="/" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <use href="/static/images/arrow-90deg-left.svg"/></svg>
+                    Назад
                 </a>
-                <a href="/" type="button" class="btn btn-lg btn-block btn-outline-primary">
-                Назад
+                <a href="edit/" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <use href="/static/images/pencil-square.svg"/></svg>
+                    Редактировать
+                </a>
+                <a href="delete/" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1">
+                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                        <use href="/static/images/trash-fill.svg"/></svg>
                 </a>
             </div>
 
