@@ -43,20 +43,26 @@
             </a>
 
             <div class="d-flex gap-2 mt-3 justify-content-center">
+
                 <a href="/" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1">
                     <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                         <use href="/static/images/arrow-90deg-left.svg"/></svg>
                     Назад
                 </a>
+
+                {% if user.is_authenticated %}
                 <a href="edit/" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
                     <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                         <use href="/static/images/pencil-square.svg"/></svg>
                     Редактировать
                 </a>
+
                 <a href="delete/" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1">
                     <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                         <use href="/static/images/trash-fill.svg"/></svg>
                 </a>
+                {% endif %}
+
             </div>
 
         </div>

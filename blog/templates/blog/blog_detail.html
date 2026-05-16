@@ -44,19 +44,23 @@
     </article>
 
     <div class="d-flex mt-4 mb-4 align-items-center gap-2">
-    {% if not blogpost.is_published %}
-    <form method="post">
-        {% csrf_token %}
-        <div class="container text-center">
-            <button type="submit" class="btn btn-lg btn-primary">Опубликовать</button>
-        </div>
-    </form>
-    {% endif %}
-    <div>
-        <a class="btn btn-lg btn-outline-secondary" href="/blog/post/{{ blogpost.pk }}/edit/">Редактировать</a>
-    </div>
 
-</div>
+        {% if not blogpost.is_published %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="container text-center">
+                <button type="submit" class="btn btn-lg btn-primary">Опубликовать</button>
+            </div>
+        </form>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <div>
+            <a class="btn btn-lg btn-outline-secondary" href="/blog/post/{{ blogpost.pk }}/edit/">Редактировать</a>
+        </div>
+        {% endif %}
+
+    </div>
 
 </div>
 {% endblock %}

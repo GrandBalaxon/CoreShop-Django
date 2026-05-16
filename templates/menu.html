@@ -9,6 +9,7 @@
         </nav>
     </div>
 
+    {% if user.is_authenticated %}
     <div class="d-flex align-items-center gap-2">
         {% if request.path == '/' %}
         <a class="p-2 mr-4 btn btn-primary d-inline-flex align-items-center" href="/product/add/">
@@ -31,5 +32,6 @@
             Admin
         </a>
     </div>
+    {% endif %}
 
 </div>
