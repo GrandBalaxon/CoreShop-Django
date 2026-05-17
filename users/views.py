@@ -1,9 +1,19 @@
-from django.views.generic import CreateView
+from django.views.generic import CreateView, DetailView
 
 from users.forms import CustomUserCreationForm
+from users.models import CustomUser
 
 
 class RegisterView(CreateView):
     template_name = 'users/register.html'
     form_class = CustomUserCreationForm
     success_url = '/'
+
+
+class CustomUserDetailsView(DetailView):
+    model = CustomUser
+    template_name = 'users/profile.html'
+    context_object_name = 'user'
+
+    def get_object(self, queryset=None):
+        return self.request.user

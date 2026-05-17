@@ -59,7 +59,7 @@
                 </button>
 
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm">
-                    <li><a class="dropdown-item" href="#">Профиль</a></li>
+                    <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="post" action="{% url 'users:logout' %}" class="d-inline">
