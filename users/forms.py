@@ -3,16 +3,23 @@ from pathlib import Path
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 
+from catalog.mixins import StyleFormMixin
 from users.models import CustomUser
 
 MAX_IMAGE_SIZE = 5 * 1024 * 1024
 ALLOWED_EXTENSIONS = ('.jpg', '.jpeg', '.png')
 
 
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(StyleFormMixin, UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = '__all__'
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone_number', 'avatar']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = 'Может содержать буквы, цифры и символы @ . + - _'
+        self.fields['password1'].help_text = 'Пароль должен быть не менее 8 символов, не слишком простым и не состоять только из цифр.'
+        self.fields['password2'].help_text = 'Введите повторно пароль для верификации.'
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
