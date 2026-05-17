@@ -47,6 +47,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        form.instance.owner = self.request.user
         self.object = form.save()
         return render(self.request, "catalog/product_added.html")
 

@@ -50,6 +50,7 @@ class BlogPostCreateView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        form.instance.author = self.request.user
         self.object = form.save()
         return redirect(self.object.get_absolute_url())
 
