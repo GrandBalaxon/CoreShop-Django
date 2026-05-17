@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DetailView
 
 from users.forms import CustomUserCreationForm
@@ -10,10 +11,10 @@ class RegisterView(CreateView):
     success_url = '/'
 
 
-class CustomUserDetailsView(DetailView):
+class CustomUserDetailsView(LoginRequiredMixin, DetailView):
     model = CustomUser
     template_name = 'users/profile.html'
-    context_object_name = 'user'
+    context_object_name = 'profile_user'
 
     def get_object(self, queryset=None):
         return self.request.user
