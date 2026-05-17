@@ -61,6 +61,10 @@
                 <ul class="dropdown-menu dropdown-menu-end shadow-sm">
                     <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
                     <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'users:profile_products' %}">Мои товары</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'users:profile_blogs' %}">Мои блоги</a></li>
+                    <li><hr class="dropdown-divider"></li>
                     <li>
                         <form method="post" action="{% url 'users:logout' %}" class="d-inline">
                             {% csrf_token %}
