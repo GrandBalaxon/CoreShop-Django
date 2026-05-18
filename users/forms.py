@@ -29,13 +29,15 @@ class PhoneAvatarValidationMixin:
 
     def clean_avatar(self):
         avatar = self.cleaned_data.get("avatar")
-        extension = Path(avatar.name).suffix.lower()
 
-        if extension not in ALLOWED_EXTENSIONS:
-            raise forms.ValidationError(
-                f"Недопустимый формат файла. Разрешенные форматы: {", ".join(ALLOWED_EXTENSIONS)}.")
-        elif avatar.size > MAX_IMAGE_SIZE:
-            raise forms.ValidationError("Размер файла не должен превышать 5 МБ.")
+        if avatar:
+            extension = Path(avatar.name).suffix.lower()
+
+            if extension not in ALLOWED_EXTENSIONS:
+                raise forms.ValidationError(
+                    f"Недопустимый формат файла. Разрешенные форматы: {", ".join(ALLOWED_EXTENSIONS)}.")
+            elif avatar.size > MAX_IMAGE_SIZE:
+                raise forms.ValidationError("Размер файла не должен превышать 5 МБ.")
 
         return avatar
 
