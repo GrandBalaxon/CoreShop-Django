@@ -35,7 +35,7 @@ class PhoneAvatarValidationMixin:
 class CustomUserCreationForm(StyleFormMixin, PhoneAvatarValidationMixin, UserCreationForm):
     class Meta(UserCreationForm.Meta):
         model = CustomUser
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone_number', 'avatar']
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone_number', 'country', 'avatar']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -47,7 +47,7 @@ class CustomUserCreationForm(StyleFormMixin, PhoneAvatarValidationMixin, UserCre
 class CustomUserChangeForm(StyleFormMixin, PhoneAvatarValidationMixin, UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = CustomUser
-        fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'avatar']
+        fields = ['username', 'first_name', 'last_name', 'phone_number', 'country', 'avatar']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
