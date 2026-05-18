@@ -10,16 +10,8 @@ MAX_IMAGE_SIZE = 5 * 1024 * 1024
 ALLOWED_EXTENSIONS = ('.jpg', '.jpeg', '.png')
 
 
-class CustomUserCreationForm(StyleFormMixin, UserCreationForm):
-    class Meta(UserCreationForm.Meta):
-        model = CustomUser
-        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone_number', 'avatar']
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.fields['username'].help_text = 'Может содержать буквы, цифры и символы @ . + - _'
-        self.fields['password1'].help_text = 'Пароль должен быть не менее 8 символов, не слишком простым и не состоять только из цифр.'
-        self.fields['password2'].help_text = 'Введите повторно пароль для верификации.'
+class PhoneAvatarValidationMixin:
+    """Общая валидация для телефона и аватара."""
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
@@ -32,14 +24,31 @@ class CustomUserCreationForm(StyleFormMixin, UserCreationForm):
         extension = Path(avatar.name).suffix.lower()
 
         if extension not in ALLOWED_EXTENSIONS:
-            raise forms.ValidationError(f"Недопустимый формат файла. Разрешенные форматы: {", ".join(ALLOWED_EXTENSIONS)}.")
+            raise forms.ValidationError(
+                f"Недопустимый формат файла. Разрешенные форматы: {", ".join(ALLOWED_EXTENSIONS)}.")
         elif avatar.size > MAX_IMAGE_SIZE:
             raise forms.ValidationError("Размер файла не должен превышать 5 МБ.")
 
         return avatar
 
 
-class CustomUserChangeForm(StyleFormMixin, UserChangeForm):
+class CustomUserCreationForm(StyleFormMixin, PhoneAvatarValidationMixin, UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = CustomUser
+        fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name', 'phone_number', 'avatar']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = 'Может содержать буквы, цифры и символы @ . + - _'
+        self.fields['password1'].help_text = 'Пароль должен быть не менее 8 символов, не слишком простым и не состоять только из цифр.'
+        self.fields['password2'].help_text = 'Введите повторно пароль для верификации.'
+
+
+class CustomUserChangeForm(StyleFormMixin, PhoneAvatarValidationMixin, UserChangeForm):
     class Meta(UserChangeForm.Meta):
         model = CustomUser
         fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'avatar']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].help_text = 'Может содержать буквы, цифры и символы @ . + - _'
