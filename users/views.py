@@ -1,18 +1,40 @@
+from secrets import token_hex
+
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.mail import send_mail
 from django.db.models import Sum
-from django.urls import reverse_lazy
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse_lazy, reverse
 from django.views.generic import CreateView, DetailView, UpdateView
 
 from blog.models import BlogPost
 from catalog.models import Product
+from config.settings import EMAIL_HOST_USER
 from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from users.models import CustomUser
 
 
 class RegisterView(CreateView):
-    template_name = 'users/register.html'
+    model = CustomUser
     form_class = CustomUserCreationForm
+    template_name = 'users/register.html'
     success_url = '/'
+
+    def form_valid(self, form):
+        user = form.save()
+        user.is_active = False
+        token = token_hex(16)
+        user.token = token
+        user.save()
+        host = self.request.get_host()
+        url = f"http://{host}/users/email-confirm/{token}/"
+        send_mail(
+            subject="Подтверждение почты",
+            message=f"Для подтверждения почты перейдите по следующей ссылке - {url}",
+            from_email=EMAIL_HOST_USER,
+            recipient_list=[user.email],
+        )
+        return super().form_valid(form)
 
 
 class ProfileUpdateView(LoginRequiredMixin, UpdateView):
@@ -59,3 +81,10 @@ class ProfileProductsView(ProfileOverviewView):
 
 class ProfileBlogsView(ProfileOverviewView):
     template_name = 'users/my_blogs.html'
+
+
+def email_verification(request, token):
+    user = get_object_or_404(CustomUser, token=token)
+    user.is_active = True
+    user.save()
+    return redirect(reverse("users:profile"))
