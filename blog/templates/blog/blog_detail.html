@@ -59,19 +59,24 @@
 
     <div class="d-flex mt-4 mb-4 align-items-center gap-2">
 
-        {% if not blogpost.is_published %}
-        <form method="post">
-            {% csrf_token %}
-            <div class="container text-center">
-                <button type="submit" class="btn btn-lg btn-primary">Опубликовать</button>
-            </div>
-        </form>
-        {% endif %}
+        {% if user.is_authenticated and blogpost.author == user %}
 
-        {% if user.is_authenticated %}
-        <div>
-            <a class="btn btn-lg btn-outline-secondary" href="/blog/post/{{ blogpost.pk }}/edit/">Редактировать</a>
-        </div>
+            {% if not blogpost.is_published %}
+            <form method="post">
+                {% csrf_token %}
+                <div class="container text-center">
+                    <button type="submit" class="btn btn-lg btn-primary">Опубликовать</button>
+                </div>
+            </form>
+            {% endif %}
+
+            <a href="{% url 'blog:blog_edit' pk=blogpost.pk %}" class="btn btn-outline-primary d-inline-flex align-items-center gap-2 px-3">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                    <use href="/static/images/pencil-square.svg"/>
+                </svg>
+                Редактировать
+            </a>
+
         {% endif %}
 
     </div>
