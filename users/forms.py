@@ -1,7 +1,7 @@
 from pathlib import Path
 
 from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from catalog.mixins import StyleFormMixin
 from users.models import CustomUser
@@ -37,3 +37,9 @@ class CustomUserCreationForm(StyleFormMixin, UserCreationForm):
             raise forms.ValidationError("Размер файла не должен превышать 5 МБ.")
 
         return avatar
+
+
+class CustomUserChangeForm(StyleFormMixin, UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        model = CustomUser
+        fields = ['username', 'email', 'first_name', 'last_name', 'phone_number', 'avatar']

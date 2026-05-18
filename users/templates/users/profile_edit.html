@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container flex-grow-1">
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+        <h1 class="display-4">Редактирование профиля</h1>
+        <p class="lead">Обновите ваши данные.</p>
+    </div>
+
+    <div class="row text-left gy-4">
+        <div class="col">
+
+            <form method="post">
+                {% csrf_token %}
+
+                {{ form.as_p }}
+
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+
+            </form>
+
+        </div>
+    </div>
+
+</div>
+{% endblock %}

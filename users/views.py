@@ -1,10 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Sum
-from django.views.generic import CreateView, DetailView, ListView
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, DetailView, UpdateView
 
 from blog.models import BlogPost
 from catalog.models import Product
-from users.forms import CustomUserCreationForm
+from users.forms import CustomUserCreationForm, CustomUserChangeForm
 from users.models import CustomUser
 
 
@@ -12,6 +13,16 @@ class RegisterView(CreateView):
     template_name = 'users/register.html'
     form_class = CustomUserCreationForm
     success_url = '/'
+
+
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = CustomUser
+    template_name = 'users/profile_edit.html'
+    form_class = CustomUserChangeForm
+    success_url = reverse_lazy("users:profile")
+
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class ProfileOverviewView(LoginRequiredMixin, DetailView):
