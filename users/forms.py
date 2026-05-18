@@ -16,12 +16,14 @@ class PhoneAvatarValidationMixin:
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
-        cleaned_phone_number = copy(phone_number)
 
-        for symbol in ["+", "-", "(", ")", " "]:
-            cleaned_phone_number = cleaned_phone_number.replace(symbol, '')
-        if cleaned_phone_number and not cleaned_phone_number.isdigit():
-            raise forms.ValidationError('Номер телефона должен содержать только цифры.')
+        if phone_number and isinstance(phone_number, str):
+            cleaned_phone_number = copy(phone_number)
+
+            for symbol in ["+", "-", "(", ")", " "]:
+                cleaned_phone_number = cleaned_phone_number.replace(symbol, '')
+            if not cleaned_phone_number.isdigit():
+                raise forms.ValidationError('Номер телефона должен содержать только цифры.')
 
         return phone_number
 
