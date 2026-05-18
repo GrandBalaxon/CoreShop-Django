@@ -3,8 +3,8 @@ from secrets import token_hex
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.db.models import Sum
-from django.shortcuts import get_object_or_404, redirect
-from django.urls import reverse_lazy, reverse
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, DetailView, UpdateView
 
 from blog.models import BlogPost
@@ -87,4 +87,4 @@ def email_verification(request, token):
     user = get_object_or_404(CustomUser, token=token)
     user.is_active = True
     user.save()
-    return redirect(reverse("users:profile"))
+    return render(request, 'users/email_confirmed.html')
