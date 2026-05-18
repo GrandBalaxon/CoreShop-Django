@@ -4,6 +4,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
 
+from blog.mixins import AuthorRequiredMixin
 from blog.models import BlogPost, Category
 
 
@@ -55,7 +56,7 @@ class BlogPostCreateView(LoginRequiredMixin, CreateView):
         return redirect(self.object.get_absolute_url())
 
 
-class BlogPostUpdateView(LoginRequiredMixin, UpdateView):
+class BlogPostUpdateView(LoginRequiredMixin, AuthorRequiredMixin, UpdateView):
     model = BlogPost
     template_name = 'blog/update_blog.html'
     fields = ['title', 'category', 'content', 'preview']
@@ -71,7 +72,7 @@ class BlogPostUpdateView(LoginRequiredMixin, UpdateView):
         return redirect(self.object.get_absolute_url())
 
 
-class BlogPostDeleteView(LoginRequiredMixin, DeleteView):
+class BlogPostDeleteView(LoginRequiredMixin, AuthorRequiredMixin, DeleteView):
     model = BlogPost
     template_name = "blog/blog_confirm_delete.html"
     success_url = reverse_lazy("blog:blog")
