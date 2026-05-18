@@ -1,3 +1,4 @@
+from copy import copy
 from pathlib import Path
 
 from django import forms
@@ -15,8 +16,13 @@ class PhoneAvatarValidationMixin:
 
     def clean_phone_number(self):
         phone_number = self.cleaned_data.get('phone_number')
-        if phone_number and not phone_number.isdigit():
+        cleaned_phone_number = copy(phone_number)
+
+        for symbol in ["+", "-", "(", ")", " "]:
+            cleaned_phone_number = cleaned_phone_number.replace(symbol, '')
+        if cleaned_phone_number and not cleaned_phone_number.isdigit():
             raise forms.ValidationError('Номер телефона должен содержать только цифры.')
+
         return phone_number
 
     def clean_avatar(self):
