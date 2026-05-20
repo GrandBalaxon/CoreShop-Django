@@ -1,0 +1,108 @@
+{% extends "users/profile_base.html" %}
+
+{% block things %}
+<div class="my-4">
+
+    <div class="row g-4 mb-4">
+
+    <!-- Всего товаров -->
+    <div class="col-12 col-md-4">
+        <div class="p-4 bg-light rounded-3 border text-center text-md-start">
+            <span class="text-muted small d-block mb-1">Мои плагины</span>
+            <h3 class="fw-bold text-dark mb-0">{{ products_count }} шт.</h3>
+        </div>
+    </div>
+
+    <!-- Общие просмотры блогов -->
+    <div class="col-12 col-md-4">
+        <div class="p-4 bg-light rounded-3 border text-center text-md-start">
+            <span class="text-muted small d-block mb-1">Просмотры статей</span>
+            <h3 class="fw-bold text-dark mb-0">{{ total_blog_views }}</h3>
+        </div>
+    </div>
+
+    <!-- Дата регистрации -->
+    <div class="col-12 col-md-4">
+        <div class="p-4 bg-light rounded-3 border text-center text-md-start">
+            <span class="text-muted small d-block mb-1">На сайте с</span>
+            <h3 class="fw-bold mb-0">{{ user.date_joined|date:"d.m.Y" }}</h3>
+        </div>
+    </div>
+
+</div>
+
+<div class="py-2">
+
+    <div class="row g-4">
+
+        <!-- Последний товар -->
+        <div class="col-12 col-lg-6">
+            <h6 class="fw-bold text-secondary mb-3 text-uppercase" style="font-size: 0.75rem;" >Последний добавленный товар</h6>
+
+            {% if last_product %}
+                <div class="d-flex align-items-center justify-content-between p-3 bg-white rounded-3 shadow-sm border position-relative overflow-hidden" style="height: 120px;">
+
+                    <div class="d-flex align-items-center">
+                        {% if last_product.image %}
+                            <img src="{{ last_product.image.url }}" alt="" class="me-3 rounded bg-light" style="width: 50px; height: 50px; object-fit: contain;">
+                        {% else %}
+                            <div class="me-3 rounded bg-light text-primary d-flex align-items-center justify-content-center" style="width: 50px; height: 50px; font-size: 1.1rem;">📦</div>
+                        {% endif %}
+                        <div>
+                            <span class="badge bg-light text-primary mb-1 fw-normal" style="font-size: 0.7rem;">{{ last_product.category }}</span>
+                            <h6 class="fw-bold mb-0 text-dark" style="max-width: 180px; font-size: 0.95rem;">{{ last_product.name }}</h6>
+                        </div>
+                    </div>
+
+                    <div class="text-end ps-2">
+                        <span class="fw-bold text-dark d-block mb-1" style="font-size: 0.95rem;">${{ last_product.price }}</span>
+                        <a href="{% url 'catalog:product_details' pk=last_product.pk %}" class="btn btn-sm btn-outline-primary py-1 px-3" style="font-size: 0.8rem; border-radius: 5px;">Открыть</a>
+                    </div>
+
+                </div>
+            {% else %}
+                <!-- Заглушка, если товаров нет -->
+                <div class="p-4 bg-light rounded-3 border text-center">
+                    <p class="text-muted small mb-3">Вы еще не добавили ни одного плагина.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary px-3">Добавить плагин</a>
+                </div>
+            {% endif %}
+        </div>
+
+        <!-- Последняя статья -->
+        <div class="col-12 col-lg-6">
+            <h6 class="fw-bold text-secondary mb-3 text-uppercase" style="font-size: 0.75rem;">Последняя публикация в блоге</h6>
+
+            {% if last_blogpost %}
+                <div class="d-flex align-items-center justify-content-between p-3 text-white rounded-3 shadow-sm border position-relative overflow-hidden" style="height: 120px;">
+
+                    <div class="position-absolute w-100 h-100"
+                         style="background: linear-gradient(to right, rgba(0,0,0,0.85) 50%, rgba(0,0,0,0.5) 100%), url('{{ last_blogpost.preview.url }}') no-repeat center center;
+                                background-size: cover; z-index: 0; top: 0; left: 0;">
+                    </div>
+
+                    <div class="position-relative" style="z-index: 1;">
+                        <span class="badge bg-primary mb-1 fw-normal text-white" style="font-size: 0.7rem; padding: 0.2em 0.5em;">{{ last_blogpost.category }}</span>
+                        <h6 class="fw-bold mb-0 text-white" style="max-width: 220px; font-size: 0.95rem;">{{ last_blogpost.title }}</h6>
+                    </div>
+
+                    <div class="position-relative text-end ps-2" style="z-index: 2;">
+                        <a href="{% url 'blog:blog_detail' pk=last_blogpost.pk %}" class="btn btn-sm btn-outline-light py-1 px-3" style="font-size: 0.8rem; border-radius: 5px;">Читать</a>
+                    </div>
+
+                </div>
+            {% else %}
+                <!-- Заглушка, если блогов нет -->
+                <div class="p-4 bg-light rounded-3 border text-center">
+                    <p class="text-muted small mb-3">У вас пока нет статей в блоге.</p>
+                    <a href="#" class="btn btn-sm btn-outline-primary px-3">Написать статью</a>
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+</div>
+{% endblock %}

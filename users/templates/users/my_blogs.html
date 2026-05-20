@@ -1,0 +1,54 @@
+{% extends "users/profile_base.html" %}
+
+{% block things %}
+<div class="my-4">
+
+    {% for blogpost in profile_user.blog_posts.all %}
+
+    <div class="d-flex align-items-center justify-content-between p-3 mb-3 text-white rounded shadow-sm border position-relative overflow-hidden" style="min-height: 110px;">
+
+        <!-- Задний фон с улучшенным и более плотным затемнением -->
+        <div class="position-absolute w-100 h-100"
+             style="background: linear-gradient(to right, rgba(0,0,0,0.85) 40%, rgba(0,0,0,0.5) 100%), url('{{ blogpost.preview.url }}') no-repeat center center;
+                    background-size: cover; z-index: 0; top: 0; left: 0;">
+        </div>
+
+        <!-- Левая часть: Мета-данные и Заголовок -->
+        <div class="d-flex flex-column justify-content-center position-relative me-3" style="z-index: 1; flex: 1;">
+            <!-- Фиксированный верхний ряд для категории и даты -->
+            <div class="d-flex align-items-center gap-2 mb-2">
+                <span class="badge bg-primary fw-normal text-white" style="font-size: 0.7rem; padding: 0.35em 0.65em;">{{ blogpost.category }}</span>
+                <span class="opacity-50 small" style="font-size: 0.8rem;">{{ blogpost.created_at|date:"d.m.Y" }}</span>
+                <span class="opacity-50 small d-flex align-items-center gap-1" style="font-size: 0.8rem;">
+                    <img src="/static/images/eye.svg/" alt="" width="12" height="12" style="filter: invert(1);">
+                    {{ blogpost.views_count }}
+                </span>
+            </div>
+            <!-- Заголовок всегда начинается строго с одной линии -->
+            <h6 class="fw-bold mb-0 text-white lh-sm" style="font-size: 1.1rem; max-width: 85%;">{{ blogpost.title }}</h6>
+        </div>
+
+        <!-- Правая часть: Кнопка (Теперь она ВСЕГДА железно справа по центру) -->
+        <div class="position-relative ms-auto" style="z-index: 2; flex-shrink: 0;">
+            <a href="{% url 'blog:blog_edit' pk=blogpost.pk %}"
+               class="btn btn-outline-light d-inline-flex align-items-center gap-2 px-3 py-2 btn-sm text-nowrap fw-medium"
+               style="border-radius: 6px; font-size: 0.85rem;">
+                <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                    <use href="/static/images/pencil-square.svg"/>
+                </svg>
+                Редактировать
+            </a>
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="col-12">
+        <p>На данный момент публикаций нет.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+{% endblock %}

@@ -9,27 +9,78 @@
         </nav>
     </div>
 
+
     <div class="d-flex align-items-center gap-2">
-        {% if request.path == '/' %}
-        <a class="p-2 mr-4 btn btn-primary d-inline-flex align-items-center" href="/product/add/">
-            <svg class="bi" width="1em" height="1em" fill="currentColor">
-                <use href="/static/images/plus-circle-fill.svg"/>
-            </svg>
-            <span class="border-start border-white opacity-50 mx-2" style="height: 1.2em;"></span>
-            Добавить товар
-        </a>
-        {% elif request.path == '/blog/' %}
-        <a class="p-2 mr-4 btn btn-primary d-inline-flex align-items-center" href="/blog/post/new/">
-            <svg class="bi" width="1em" height="1em" fill="currentColor">
-                <use href="/static/images/plus-circle-fill.svg"/>
-            </svg>
-            <span class="border-start border-white opacity-50 mx-2" style="height: 1.2em;"></span>
-            Написать статью
-        </a>
+
+        {% if user.is_authenticated %}
+            {% if request.path == '/' %}
+            <a class="p-2 mr-4 btn btn-primary d-inline-flex align-items-center" href="/product/add/">
+                <svg class="bi" width="1em" height="1em" fill="currentColor">
+                    <use href="/static/images/plus-circle-fill.svg"/>
+                </svg>
+                <span class="border-start border-white opacity-50 mx-2" style="height: 1.2em;"></span>
+                Добавить товар
+            </a>
+            {% elif request.path == '/blog/' %}
+            <a class="p-2 mr-4 btn btn-primary d-inline-flex align-items-center" href="/blog/post/new/">
+                <svg class="bi" width="1em" height="1em" fill="currentColor">
+                    <use href="/static/images/plus-circle-fill.svg"/>
+                </svg>
+                <span class="border-start border-white opacity-50 mx-2" style="height: 1.2em;"></span>
+                Написать статью
+            </a>
+            {% endif %}
+
+            <a class="p-2 btn btn-outline-secondary" href="/admin/">
+                Admin
+            </a>
         {% endif %}
-        <a class="p-2 btn btn-outline-secondary" href="/admin/">
-            Admin
-        </a>
+
+        <!-- Меню пользователя / Авторизация -->
+        {% if user.is_authenticated %}
+            <div class="dropdown d-flex align-items-center">
+
+                <button class="btn d-flex align-items-center gap-2 border-0 bg-transparent dropdown-toggle pe-0 shadow-none"
+                        type="button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false">
+
+                    <span class="font-weight-normal text-dark me-1">{{ user.username }}</span>
+
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="Аватар" class="rounded-circle border" width="40" height="40" style="object-fit: cover;">
+                    {% else %}
+                        <div class="bg-primary text-white d-flex align-items-center justify-content-center rounded-circle font-weight-bold"
+                             style="width: 40px; height: 40px; font-size: 1.1rem;">
+                            {{ user.username|slice:":1"|upper }}
+                        </div>
+                    {% endif %}
+
+                </button>
+
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                    <li><a class="dropdown-item" href="{% url 'users:profile' %}">Профиль</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'users:profile_products' %}">Мои товары</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="{% url 'users:profile_blogs' %}">Мои блоги</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <form method="post" action="{% url 'users:logout' %}" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="dropdown-item text-danger">Выход</button>
+                        </form>
+                    </li>
+                </ul>
+
+            </div>
+        {% else %}
+            <div class="d-flex align-items-center gap-2">
+                <a class="p-2 btn btn-outline-primary" href="{% url 'users:login' %}">Войти</a>
+                <a class="p-2 btn btn-primary" href="{% url 'users:register' %}">Регистрация</a>
+            </div>
+        {% endif %}
+
     </div>
 
 </div>

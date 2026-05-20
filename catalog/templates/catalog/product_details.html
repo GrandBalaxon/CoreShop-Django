@@ -1,70 +1,99 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container flex-grow-1">
+<div class="container flex-grow-1 py-5">
+    <div class="row g-5 align-items-start">
 
-    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">{{ product.name }}</h1>
-    </div>
+        <!-- ЛЕВАЯ КОЛОНКА: Визуальная часть и Действия -->
+        <div class="col-12 col-lg-5 text-center text-lg-start">
 
-    <div class="row mt-3">
-
-        <div class="col-4 text-start">
-
-            <div class="mb-3 mt-4 text-center">
+            <!-- Превью товара -->
+            <div class="p-4 bg-light rounded-4 border mb-4 d-flex align-items-center justify-content-center mx-auto" style="max-width: 450px; min-height: 350px;">
                 {% if product.image %}
-
-                <img src="{{ product.image.url }}"
-                     alt="{{ product.name }}"
-                     class="img-fluid"
-                     style="max-height: 250px; width: auto; object-fit: contain;">
-
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid rounded-3" style="max-height: 300px; object-fit: contain;">
                 {% else %}
-
-                <div class="bg-light d-flex align-items-center justify-content-center"
-                     style="height: 250px; border: 1px solid #dee2e6;">
-                    <span class="text-muted">Нет изображения</span>
-                </div>
-
+                    <span class="text-muted fs-4">Нет изображения</span>
                 {% endif %}
             </div>
 
-            <h1 class="card-title pricing-card-title mt-3">${{ product.price }}</h1>
+            <!-- Цена и Кнопка покупки -->
+            <div class="p-4 rounded-4 bg-white border shadow-sm mb-4 mx-auto" style="max-width: 450px;">
 
-            <ul class="list-unstyled text-start fs-5 mt-3 mb-3">
-                <li><strong>Категория</strong>: {{ product.category }}</li>
-            </ul>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-muted small">Цена плагина</span>
+                    <!-- Цена теперь классического глубокого темного цвета -->
+                    <h2 class="display-6 fw-bold text-dark mb-0">${{ product.price }}</h2>
+                </div>
 
-            <a href="#" class="btn btn-primary w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 rounded-3" style="background-color: #0066ff; border: none; font-size: 1.1rem;">
-                <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-                    <use href="/static/images/cart.svg"/>
-                </svg>
-                Купить продукт
-            </a>
+                <a href="#" class="btn btn-primary w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 rounded-3" style="background-color: #0066ff; border: none; font-size: 1.1rem;">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="align-middle">
+                        <use href="/static/images/cart.svg"/>
+                    </svg>
+                    <span>Купить продукт</span>
+                </a>
 
-            <div class="d-flex gap-2 mt-3 justify-content-center">
-                <a href="/" class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1">
+            </div>
+
+            <!-- Навигация и Управление (Только для создателя) -->
+            <div class="d-flex gap-2 justify-content-center justify-content-lg-start mx-auto" style="max-width: 450px;">
+                <a href="/" class="btn btn-outline-secondary d-inline-flex align-items-center gap-2 px-3">
                     <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <use href="/static/images/arrow-90deg-left.svg"/></svg>
+                        <use href="/static/images/arrow-90deg-left.svg"/>
+                    </svg>
                     Назад
                 </a>
-                <a href="edit/" class="btn btn-outline-primary btn-sm d-flex align-items-center gap-1">
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <use href="/static/images/pencil-square.svg"/></svg>
-                    Редактировать
-                </a>
-                <a href="delete/" class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1">
-                    <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
-                        <use href="/static/images/trash-fill.svg"/></svg>
-                </a>
+
+                {% if user.is_authenticated and product.owner == user %}
+                    <a href="edit/" class="btn btn-outline-primary d-inline-flex align-items-center gap-2 px-3">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                            <use href="/static/images/pencil-square.svg"/>
+                        </svg>
+                        Редактировать
+                    </a>
+
+                    <a href="delete/" class="btn btn-outline-danger d-inline-flex align-items-center justify-content-center px-3">
+                        <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                            <use href="/static/images/trash-fill.svg"/>
+                        </svg>
+                    </a>
+                {% endif %}
             </div>
 
         </div>
 
-        <div class="col-8">
+        <!-- ПРАВАЯ КОЛОНКА: Информация и Описание -->
+        <div class="col-12 col-lg-7">
 
-            <div class="mb-4 fs-5 text-start m-3 flex-grow-1">
-                {{ product.description|linebreaks }}
+            <!-- Категория и ID -->
+            <div class="d-flex flex-wrap gap-2 mb-3">
+                <span class="badge bg-light text-primary fs-6 fw-normal px-3 py-2 border">{{ product.category }}</span>
+                <span class="badge bg-light text-secondary fs-6 fw-normal px-3 py-2 border">ID: #{{ product.id }}</span>
+            </div>
+
+            <!-- Название -->
+            <h1 class="display-5 fw-bold mb-4 text-dark">{{ product.name }}</h1>
+
+            <!-- Блок Создателя (Инфо об авторе) -->
+            <div class="d-flex align-items-center p-3 mb-4 bg-light rounded-3 border">
+                {% if product.owner.avatar %}
+                    <img src="{{ product.owner.avatar.url }}" alt="" class="rounded-circle border me-3" style="width: 48px; height: 48px; object-fit: cover;">
+                {% else %}
+                    <div class="rounded-circle bg-white text-primary d-flex align-items-center justify-content-center border me-3" style="width: 48px; height: 48px; font-size: 1.2rem; font-weight: bold;">
+                        {{ product.owner.username|slice:":1"|upper }}
+                    </div>
+                {% endif %}
+                <div>
+                    <span class="text-muted d-block small" style="font-size: 0.8rem;">Разработчик</span>
+                    <div class="fw-bold">{{ product.owner.get_full_name|default:product.owner.username }}</div>
+                </div>
+            </div>
+
+            <!-- Текст описания -->
+            <div class="lh-lg fs-5 text-secondary">
+                <h5 class="text-dark fw-bold mb-3 pb-2 border-bottom">Описание и возможности</h5>
+                <div class="pe-lg-4">
+                    {{ product.description|linebreaks }}
+                </div>
             </div>
 
         </div>

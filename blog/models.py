@@ -1,6 +1,9 @@
 from django.db import models
 from django.urls import reverse
 
+from users.models import CustomUser
+
+
 class Category(models.Model):
     name = models.CharField(unique=True, max_length=150, verbose_name="Наименование")
     description = models.TextField(verbose_name="Описание")
@@ -25,6 +28,12 @@ class BlogPost(models.Model):
         verbose_name="Категория"
     )
     preview = models.ImageField(upload_to='images/blog/', null=True, blank=True, verbose_name="Превью")
+    author = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        verbose_name="Автор",
+        related_name="blog_posts",
+    )
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата создания")
     updated_at = models.DateTimeField(auto_now=True, verbose_name="Дата изменения")
     is_published = models.BooleanField(default=False, verbose_name="Опубликовано")
