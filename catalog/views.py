@@ -1,6 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.core.exceptions import PermissionDenied
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -70,3 +72,17 @@ class ProductDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
     template_name = 'catalog/delete_confirm.html'
     success_url = reverse_lazy('catalog:products_list')
     context_object_name = "product"
+
+
+class ProductPublicationStatusView(LoginRequiredMixin, View):
+    """Отвечает за смену статуса публикации товара."""
+    def post(self, request, pk):
+        product = get_object_or_404(Product, pk=pk)
+
+        if product.owner != request.user or not request.user.has_perm('catalog.can_unpublish_product'):
+            raise PermissionDenied
+
+        product.is_published = not product.is_published
+        product.save()
+
+        return redirect("catalog:product_details", pk=pk)
