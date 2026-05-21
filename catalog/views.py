@@ -79,10 +79,10 @@ class ProductPublicationStatusView(LoginRequiredMixin, View):
     def post(self, request, pk):
         product = get_object_or_404(Product, pk=pk)
 
-        if product.owner != request.user or not request.user.has_perm('catalog.can_unpublish_product'):
+        if product.owner == request.user or request.user.has_perm('catalog.can_unpublish_product'):
+            product.is_published = not product.is_published
+            product.save()
+
+            return redirect("catalog:product_details", pk=pk)
+        else:
             raise PermissionDenied
-
-        product.is_published = not product.is_published
-        product.save()
-
-        return redirect("catalog:product_details", pk=pk)
