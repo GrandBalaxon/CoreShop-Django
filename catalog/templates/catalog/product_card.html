@@ -12,7 +12,16 @@
                     {% endif %}
 
                     <div style="z-index: 1;">
-                        <span class="badge bg-light text-primary mb-2 fw-normal">{{ product.category }}</span>
+                        <div>
+                            <span class="badge bg-light text-primary mb-2 fw-normal">{{ product.category }}</span>
+                            {% if perms.catalog.can_unpublish_product or product.owner == user %}
+                                {% if product.is_published%}
+                                    <span class="badge text-bg-success mb-2 fw-normal">Опубликован</span>
+                                {% else %}
+                                    <span class="badge bg-danger mb-2 fw-normal">Не опубликован</span>
+                                {% endif %}
+                            {% endif %}
+                        </div>
                         <h5 class="card-title fw-bold mb-3" style="min-height: 3rem;">{{ product.name }}</h5>
                         <p class="card-text text-muted mb-4 flex-grow-1">{{ product.description | truncatechars:100 }}</p>
                     </div>
