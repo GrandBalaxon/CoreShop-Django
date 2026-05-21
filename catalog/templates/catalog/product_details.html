@@ -54,7 +54,7 @@
                     Назад
                 </a>
 
-                {% if user.is_authenticated and product.owner == user %}
+                {% if perms.catalog.change_product and perms.catalog.delete_product or product.owner == user %}
                     <a href="edit/" class="btn btn-outline-primary d-inline-flex align-items-center gap-2 px-3">
                         <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                             <use href="/static/images/pencil-square.svg"/>

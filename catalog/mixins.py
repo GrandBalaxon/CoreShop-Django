@@ -17,10 +17,10 @@ class StyleFormMixin:
                 field.widget.attrs['class'] += ' form-control'
 
 
-class OwnerRequiredMixin(AccessMixin):
+class OwnerOrModeratorRequiredMixin(AccessMixin):
     """Проверяет, что текущий пользователь является владельцем товара."""
     def dispatch(self, request, *args, **kwargs):
         self.object = self.get_object()
-        if self.object.owner != request.user:
+        if self.object.owner != request.user and not request.user.has_perm('catalog.can_unpublish_product'):
             raise PermissionDenied("Вы не можете редактировать или удалить чужой товар.")
         return super().dispatch(request, *args, **kwargs)

@@ -7,7 +7,7 @@ from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 from catalog.forms import ProductForm
-from catalog.mixins import OwnerRequiredMixin
+from catalog.mixins import OwnerOrModeratorRequiredMixin
 from catalog.models import ContactInfo, Product, Category
 
 
@@ -55,7 +55,7 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
         return render(self.request, "catalog/product_added.html")
 
 
-class ProductUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
+class ProductUpdateView(LoginRequiredMixin, OwnerOrModeratorRequiredMixin, UpdateView):
     model = Product
     form_class = ProductForm
     template_name = 'catalog/product_form.html'
@@ -67,7 +67,7 @@ class ProductUpdateView(LoginRequiredMixin, OwnerRequiredMixin, UpdateView):
         return context
 
 
-class ProductDeleteView(LoginRequiredMixin, OwnerRequiredMixin, DeleteView):
+class ProductDeleteView(LoginRequiredMixin, OwnerOrModeratorRequiredMixin, DeleteView):
     model = Product
     template_name = 'catalog/delete_confirm.html'
     success_url = reverse_lazy('catalog:products_list')
