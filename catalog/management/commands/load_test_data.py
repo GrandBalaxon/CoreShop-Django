@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django.core.management import call_command
 from django.core.management.base import BaseCommand
 from django.db import connection
@@ -13,6 +14,7 @@ class Command(BaseCommand):
         Category.objects.all().delete()
         BlogPost.objects.all().delete()
         BlogCategory.objects.all().delete()
+        Group.objects.all().delete()
 
         with connection.cursor() as cursor:
             cursor.execute("ALTER SEQUENCE catalog_product_id_seq RESTART WITH 1;")
@@ -20,6 +22,6 @@ class Command(BaseCommand):
             cursor.execute("ALTER SEQUENCE blog_blogpost_id_seq RESTART WITH 1;")
             cursor.execute("ALTER SEQUENCE blog_category_id_seq RESTART WITH 1;")
 
-        call_command('loaddata', 'catalog_fixture.json')
+        call_command('loaddata', 'test_data_fixture.json')
 
         self.stdout.write(self.style.SUCCESS('Test data loaded successfully.'))
