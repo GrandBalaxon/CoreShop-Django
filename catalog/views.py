@@ -2,7 +2,9 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
+from django.views.decorators.cache import cache_page
 from django.views.generic import ListView, TemplateView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
@@ -33,6 +35,7 @@ class ContactsView(TemplateView):
         return render(request, 'catalog/message_received.html', context)
 
 
+@method_decorator(cache_page(60 * 15), name='dispatch')
 class ProductDetailsView(DetailView):
     model = Product
     template_name = 'catalog/product_details.html'
