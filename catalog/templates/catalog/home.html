@@ -12,15 +12,13 @@
     <div class="row text-center gy-4">
 
         {% for product in products %}
-
-        {% include 'catalog/product_card.html' %}
-
+            {% if perms.catalog.can_unpublish_product or product.owner == user or product.is_published %}
+                {% include 'catalog/product_card.html' %}
+            {% endif %}
         {% empty %}
-
-        <div class="col-12">
-            <p>На данный момент товаров нет.</p>
-        </div>
-
+            <div class="col-12">
+                <p>На данный момент товаров нет.</p>
+            </div>
         {% endfor %}
 
     </div>

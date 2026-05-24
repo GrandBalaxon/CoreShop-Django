@@ -24,14 +24,25 @@
                     <!-- Цена теперь классического глубокого темного цвета -->
                     <h2 class="display-6 fw-bold text-dark mb-0">${{ product.price }}</h2>
                 </div>
-
-                <a href="#" class="btn btn-primary w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 rounded-3" style="background-color: #0066ff; border: none; font-size: 1.1rem;">
-                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="align-middle">
-                        <use href="/static/images/cart.svg"/>
-                    </svg>
-                    <span>Купить продукт</span>
-                </a>
-
+                {% if product.owner != user and product.is_published %}
+                    <a href="#" class="btn btn-primary w-100 py-3 fw-semibold d-flex align-items-center justify-content-center gap-2 rounded-3" style="background-color: #0066ff; border: none; font-size: 1.1rem;">
+                        <svg width="20" height="20" fill="currentColor" viewBox="0 0 16 16" class="align-middle">
+                            <use href="/static/images/cart.svg"/>
+                        </svg>
+                        <span>Купить продукт</span>
+                    </a>
+                {% endif %}
+                {% if perms.catalog.can_unpublish_product or product.owner == user %}
+                    <form method="post" action="{% url 'catalog:change_published_status' product.id %}">
+                        {% csrf_token %}
+                        <button
+                            type="submit"
+                            class="btn {% if not product.is_published %}btn-outline-primary{% else %}btn-danger{% endif %} w-100 py-3 fw-semibold d-flex align-items-center justify-content-center rounded-3 mt-2"
+                            style="font-size: 1.1rem;">
+                            <span>{% if not product.is_published %}Опубликовать{% else %}Отменить публикацию{% endif %}</span>
+                        </button>
+                    </form>
+                {% endif %}
             </div>
 
             <!-- Навигация и Управление (Только для создателя) -->
@@ -43,7 +54,7 @@
                     Назад
                 </a>
 
-                {% if user.is_authenticated and product.owner == user %}
+                {% if perms.catalog.change_product and perms.catalog.delete_product or product.owner == user %}
                     <a href="edit/" class="btn btn-outline-primary d-inline-flex align-items-center gap-2 px-3">
                         <svg width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
                             <use href="/static/images/pencil-square.svg"/>
