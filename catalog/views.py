@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
@@ -18,6 +19,13 @@ class ProductsListView(ListView):
     model = Product
     template_name = 'catalog/home.html'
     context_object_name = 'products'
+
+    def get_queryset(self):
+        queryset = cache.get("products_queryset")
+        if not queryset:
+            queryset = super().get_queryset()
+            cache.set("products_queryset", queryset, timeout=60*15)
+        return queryset
 
 
 class ContactsView(TemplateView):
