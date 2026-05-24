@@ -10,7 +10,7 @@
 
     <div class="row text-center gy-4">
 
-        {% for product in category.products.all %}
+        {% for product in products %}
             {% if perms.catalog.can_unpublish_product or product.owner == user or product.is_published %}
                 {% include 'catalog/product_card.html' %}
             {% endif %}

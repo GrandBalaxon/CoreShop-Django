@@ -11,7 +11,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from catalog.forms import ProductForm
 from catalog.mixins import OwnerOrModeratorRequiredMixin
 from catalog.models import ContactInfo, Product, Category
-from catalog.services import ProductService
+from catalog.services import get_products_by_category
 
 
 class ProductsListView(ListView):
@@ -92,7 +92,16 @@ class ProductPublicationStatusView(LoginRequiredMixin, View):
             raise PermissionDenied
 
 
-class CategoryProductsListView(DetailView):
-    model = Category
+class CategoryProductsListView(ListView):
+    model = Product
     template_name = 'catalog/category_products.html'
-    context_object_name = 'category'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category_id = self.kwargs.get('pk')
+        return get_products_by_category(category_id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = Category.objects.get(pk=self.kwargs.get('pk'))
+        return context
