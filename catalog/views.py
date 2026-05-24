@@ -11,6 +11,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from catalog.forms import ProductForm
 from catalog.mixins import OwnerOrModeratorRequiredMixin
 from catalog.models import ContactInfo, Product, Category
+from catalog.services import ProductService
 
 
 class ProductsListView(ListView):
@@ -89,3 +90,9 @@ class ProductPublicationStatusView(LoginRequiredMixin, View):
             return redirect("catalog:product_details", pk=pk)
         else:
             raise PermissionDenied
+
+
+class CategoryProductsListView(DetailView):
+    model = Category
+    template_name = 'catalog/category_products.html'
+    context_object_name = 'category'
