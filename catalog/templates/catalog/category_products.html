@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container flex-grow-1">
+
+    <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-start">
+        <h3>Категории / {{ category.name }} /</h3>
+        <p class="lead">{{ category.description }}</p>
+    </div>
+
+    <div class="row text-center gy-4">
+
+        {% for product in products %}
+            {% if perms.catalog.can_unpublish_product or product.owner == user or product.is_published %}
+                {% include 'catalog/product_card.html' %}
+            {% endif %}
+        {% empty %}
+            <div class="col-12">
+                <p>На данный момент товаров нет.</p>
+            </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
